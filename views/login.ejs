@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitFluencer | Login</title>
+</head>
+<body>
+    <div class="container">
+        <form action="/login" method="POST">
+
+            <div class="input-field">
+                <label for="phone">Phone : </label>
+                <input type="number" name="phone">
+            </div>
+            <div class="input-field">
+                <label for="password">Password : </label>
+                <input type="password" name="password">
+            </div>
+            <% if(messages.error) { %>
+                <div class="alert">
+                    <h5>
+                        <%= messages.error %>
+                    </h5>
+                </div>
+            <% } %>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

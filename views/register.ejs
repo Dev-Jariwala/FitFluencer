@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitFluencer | Register</title>
+</head>
+
+<body>
+    <div class="container">
+        <form action="/register" method="POST">
+            <div class="input-field">
+                <label for="firstname">First Name : </label>
+                <input type="text" name="firstname">
+            </div>
+            <div class="input-field">
+                <label for="lastname">Last Name : </label>
+                <input type="text" name="lastname">
+            </div>
+            <div class="input-field">
+                <label for="phone">Phone : </label>
+                <input type="number" name="phone">
+            </div>
+            <div class="input-field">
+                <label for="password">Password : </label>
+                <input type="password" name="password">
+            </div>
+            <div class="input-field">
+                <label for="cpassword">Confirm Password : </label>
+                <input type="password" name="cpassword">
+            </div>
+            <% if(messages.notMatched) { %>
+                <div class="alert">
+                    <h5>
+                        <%= messages.notMatched %>
+                    </h5>
+                </div>
+            <% } %>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+
+</html>
