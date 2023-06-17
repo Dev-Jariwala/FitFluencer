@@ -1,0 +1,125 @@
+.profile {
+    /* background-color: red; */
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.profile-img img {
+    background-color: #fff;
+    width: 120px;
+    border: 5px solid var(--dark);
+    border-radius: 50%;
+}
+
+.profile-name {
+    margin-bottom: 10px;
+}
+
+.plus-icon {
+    position: relative;
+    left: 86px;
+    top: -35px;
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #f2f2f2;
+    border: 2px dashed #ccc;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 25px;
+    cursor: pointer;
+}
+
+.plus-icon i {
+    font-size: 10px;
+    color: #888;
+}
+.profile button[type="submit"]{
+    background-color: var(--dark);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 0 auto 10px;
+    cursor: pointer;
+}
+
+.edit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 50px;
+}
+
+.edit a {
+    border: 0;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: rgb(232, 223, 223);
+    border-radius: 12px;
+    color: black;
+    /* font-weight: bold; */
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+}
+.coach-btn{
+    background-color: var(--dark);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 0 auto 10px;
+    cursor: pointer;
+}
+.coach-form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+}
+
+.options {
+    background-color: var(--lightest);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 20px auto;
+    padding: 20px;
+    width: 95%;
+}
+
+.options a {
+    text-decoration: none;
+    margin: 5px 0;
+}
+
+.options hr {
+    color: black;
+    width: 100%;
+    margin: 5px auto;
+
+}
+
+.form {
+    margin: auto;
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-btn {
+    border: 0;
+    background-color: var(--dark);
+    padding: 10px 25px;
+    border-radius: 12px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+}

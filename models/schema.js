@@ -16,6 +16,15 @@ const userSchema = mongoose.Schema({
     password:{
         type:String,
         required:true
+    },
+    profile:{
+        type:String
+    },
+    admin:{
+        type:Boolean
+    },
+    coach:{
+        type:Boolean
     }
 });
 const UserData = new mongoose.model("UserData",userSchema);

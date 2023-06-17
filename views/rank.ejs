@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitFluencer | Dashboard</title>
+    <!-- dashboard.css -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <link rel="stylesheet" href="/css/rank.css">
+
+    <script src="https://kit.fontawesome.com/d13807cb98.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="mobile">
+        <!-- Navbar -->
+        <nav>
+            <div class="navbar">
+                <div class="nav-title">
+                    fit<span>fluencer</span>
+                </div>
+                <div class="nav-items">
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-bell"></i></a></li>
+                        <li><a href=""><i class="fa-solid fa-message"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- <hr> -->
+        <!-- Canvas -->
+        <div class="canvas">
+            <input type="text" placeholder="🔍 Search" class="search-user">
+            <ul class="users">
+                <% users.forEach(function (user) { %>
+                    <li class="user">
+                        <a href="/viewprofile/<%= user._id %>">
+                            <% if(user.profile) { %>
+                                <img class="user-profile" src="/uploads/<%= user.profile%>" alt="profile">
+                                <% } else{ %>
+                                    <img class="user-profile" src="/img/user.png" alt="profile">
+                                    <% } %>
+                            <%= user.firstname %>
+                            <%= user.lastname %>
+                                <% if(user.admin) { %>
+                                    <span style="color: #95CD41; margin-left: 10px;"><i class="fa-solid fa-crown"></i></span>
+                                    <% } %>
+                                        <% if(user.coach) { %>
+                                            <span style="color: blue; margin-left: 10px;"><i class="fa-solid fa-flag"></i></span>
+                                            <% } %></a>
+                    </li>
+                    <% }) %>
+            </ul>
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            <a href=""><i class="fa-solid fa-house"></i></a>
+            <a href=""><i class="fa-solid fa-ranking-star"></i></a>
+            <a href=""><i class="fa-sharp fa-solid fa-list-check"></i></a>
+            <a href="profile"><i class="fa-solid fa-user"></i></a>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,111 @@
+:root {
+
+    /* green theme/---- */
+    /* --dark: #5aacaa;
+    --light: #D6E4E5;
+    --lightest: #EFF5F5; */
+
+    /* yellow theme/----- */
+    --dark: #fad049;
+    --light: #F5F0BB;
+    --lightest: #F9FBE7;
+
+    /* normal theme */
+    /* --dark: #fad049;
+    --light: #F5F0BB;
+    --lightest: #F9FBE7; */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* background-color: rgb(231, 228, 228); */
+    background-color: var(--lightest);
+}
+
+/* .....................Navbar...................... */
+.navbar {
+    display: flex;
+
+    height: 70px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 40px;
+    border-bottom: 1px solid #ccc;
+}
+
+.nav-title {
+    color: var(--dark);
+    font-size: 22px;
+}
+
+.nav-title span {
+    color: black;
+}
+
+nav ul {
+    display: flex;
+
+}
+
+nav ul li {
+
+    list-style: none;
+    margin: 0 15px;
+    cursor: pointer;
+    color: var(--dark);
+}
+
+nav ul li a {
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+}
+
+@media screen and (max-width:570px) {
+    .navbar {
+        padding: 10px 30px;
+    }
+}
+
+
+
+/* ...............................canvas.................................. */
+
+.canvas {
+    min-height: 800px;
+    background-color: var(--light);
+    padding-top: 20px;
+    padding-bottom: 50px;
+}
+
+.hrs {
+    width: 80%;
+    margin: auto;
+    color: black;
+}
+
+/* .........................footer.............................. */
+.footer {
+    background-color: var(--lightest);
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    /* border: 1px solid #ccc; */
+    border-top: 1px solid #ccc;
+}
+
+.footer a {
+    font-size: 20px;
+    color: black;
+    text-decoration: none;
+}

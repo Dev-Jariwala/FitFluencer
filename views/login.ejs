@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FitFluencer | Login</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
     <div class="container">
-        <form action="/login" method="POST">
+        <div class="logo">
+            <img src="/img/blogo.png" alt="logo">
+        </div>
+        <form class="form" action="/login" method="POST">
 
             <div class="input-field">
-                <label for="phone">Phone : </label>
-                <input type="number" name="phone">
+                <!-- <label for="phone">Phone : </label> -->
+                <input type="number" name="phone" placeholder="Mobile Number">
             </div>
             <div class="input-field">
-                <label for="password">Password : </label>
-                <input type="password" name="password">
+                <!-- <label for="password">Password : </label> -->
+                <input type="password" name="password" placeholder="Passowrd">
             </div>
-            <% if(messages.error) { %>
-                <div class="alert">
-                    <h5>
-                        <%= messages.error %>
-                    </h5>
-                </div>
-            <% } %>
-
-            <button type="submit">Login</button>
+            <div class="alert">
+                <% if(messages.error) { %>
+                    <div class="messages">
+                        <h5>
+                            <%= messages.error %>
+                        </h5>
+                    </div>
+                    <% } %>
+            </div>
+            <button class="submit-btn" type="submit">Login</button>
         </form>
+        <div class="links">
+            <span><a href="/register">Register</a></span>
+            <span><a href="/fpassword">Forgot password?</a></span>
+        </div>
     </div>
+
 </body>
+
 </html>

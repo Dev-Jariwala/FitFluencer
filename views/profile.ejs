@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitFluencer | Dashboard</title>
+    <!-- dashboard.css -->
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <!-- profile.css -->
+    <link rel="stylesheet" href="/css/profile.css">
+
+    <script src="https://kit.fontawesome.com/d13807cb98.js" crossorigin="anonymous"></script>
+    <!-- Include the Cropper.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+
+
+</head>
+
+<body>
+    <div class="mobile">
+        <!-- Navbar -->
+        <nav>
+            <div class="navbar">
+                <div class="nav-title">
+                    fit<span>fluencer</span>
+                </div>
+                <div class="nav-items">
+                    <ul>
+                        <li><a href=""><i class="fa-solid fa-bell"></i></a></li>
+                        <li><a href=""><i class="fa-solid fa-message"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- <hr> -->
+        <!-- Canvas -->
+        <div class="canvas">
+            <div class="profile">
+                <div class="profile-img">
+                    <form action="/upload" method="POST" enctype="multipart/form-data">
+                        <% if(user.profile) { %>
+                            <img id="preview-image" src="/uploads/<%= user.profile%>" alt="profile">
+                            <% } else{ %>
+                                <img id="preview-image" src="/img/user.png" alt="profile">
+                                <% } %>
+                                    <label for="profile-image-input" class="plus-icon">
+                                        <i class="fas fa-plus"></i>
+                                    </label>
+                                    <input type="file" name="profile" id="profile-image-input" accept="image/*"
+                                        style="display: none" onchange="previewImage(event)">
+                                    <button type="submit" id="submitBtn" class="btn" style="display: none">Save
+                                        Profile</button>
+                    </form>
+                </div>
+                <div class="profile-name">
+                    <strong>
+                        <%=user.firstname%>
+                    </strong>
+                    <strong>
+                        <%=user.lastname%>
+                    </strong>
+                    <% if(user.admin) { %>
+                        <span style="color: #95CD41;"><i class="fa-solid fa-crown"></i></span>
+                        <% } %>
+                        <% if(user.coach) { %>
+                            <span style="color: blue;"><i class="fa-solid fa-flag"></i></span>
+                            <% } %>
+                </div>
+            </div>
+            <hr class="hrs">
+            <div class="edit">
+                <a href="editprofile"><i class="fa-solid fa-user-pen"></i> Edit Profile</a>
+                <a href="editlogs"><i class="fa-solid fa-file-pen"></i> Edit Logs</a>
+            </div>
+            <div class="options">
+                <a href="">🗒️ Health Logs</a>
+                <hr>
+                <a href="">🦾 Progress Reports</a>
+                <hr>
+                <a href="">⏱️ Reminders</a>
+                <hr>
+                <a href="">🎯 Goals and Budgets</a>
+            </div>
+            <div class="options">
+                <a href="">🧑‍⚕️ Health and Medical information</a>
+                <hr>
+                <a href="">❓ Help & Support</a>
+                <hr>
+                <a href="">⚙️ Settings</a>
+            </div>
+            <div class="form">
+                <form action="/logout?_method=DELETE" method="POST">
+                    <button class="logout-btn" type="submit">Logout</button>
+                </form>
+            </div>
+
+        </div>
+
+        <!-- footer -->
+        <div class="footer">
+            <a href=""><i class="fa-solid fa-house"></i></a>
+            <a href="rank"><i class="fa-solid fa-ranking-star"></i></a>
+            <a href=""><i class="fa-sharp fa-solid fa-list-check"></i></a>
+            <a href="profile"><i class="fa-solid fa-user"></i></a>
+        </div>
+    </div>
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        function previewImage(event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var preview = document.getElementById('preview-image');
+                preview.src = reader.result;
+            }
+            reader.readAsDataURL(event.target.files[0]);
+
+            submitBtn.style.display = "block";
+        }
+    </script>
+</body>
+
+</html>

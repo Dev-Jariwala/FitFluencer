@@ -1,0 +1,93 @@
+:root {
+
+    /* green theme/---- */
+    /* --dark: #5aacaa;
+    --light: #D6E4E5;
+    --lightest: #EFF5F5; */
+
+    /* yellow theme/----- */
+    /* --dark: #f7c83b;*/
+    --dark: #fad049;
+    --light: #F5F0BB;
+    --lightest: #F9FBE7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Green Color Theme */
+    background-color: var(--light);
+}
+
+a {
+    color: #574747;
+    text-decoration: none;
+}
+
+.container {
+    background-color: var(--lightest);
+    width: 360px;
+    border-radius: 25px;
+    /* height: 650px; */
+    padding: 50px 0;
+    margin: auto;
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.logo img {
+    width: 190px;
+    margin: 0 0 50px;
+}
+
+.input-field input {
+    width: 250px;
+    height: 40px;
+    padding: 20px 20px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    margin: 8px 0;
+    /* box-shadow: 1px 1px 5px grey; */
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.submit-btn {
+    border: 0;
+    margin-top: 15px;
+    width: 250px;
+    height: 40px;
+    background-color: var(--dark);
+    border-radius: 12px;
+    color: black;
+    /* font-weight: bold; */
+    font-size: 16px;
+    cursor: pointer;
+    /* box-shadow: 1px 1px 5px grey; */
+}
+
+span {
+    margin: 15px;
+}
+
+.links {
+    margin-top: 20px;
+}
+
+.messages {
+    border: 1px solid red;
+    background-color: #ff9c9c;
+    border-radius: 12px;
+    padding: 10px 0 0 58px;
+    height: 36px;
+    color: crimson;
+}
