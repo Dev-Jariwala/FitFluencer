@@ -17,7 +17,7 @@
     width: 85%;
     margin: 5px auto;
     list-style: none;
-    padding: 15px 15px;
+
     background-color: var(--dark);
 }
 .user a{
@@ -25,10 +25,28 @@
     color: black;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    padding: 15px 15px;
+}
+.user .user-left{
+    display: flex;
+    align-items: center;
+    
 }
 
 .user-profile{
     width: 40px;
     margin-right: 10px;
     border-radius: 50%;
+}
+
+.totalStudents{
+    background-color: var(--light);
+    display: flex;
+    width: 30px;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    color: #939393;
 }

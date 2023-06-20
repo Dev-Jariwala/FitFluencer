@@ -64,10 +64,15 @@
                     <% if(user.admin) { %>
                         <span style="color: #95CD41;"><i class="fa-solid fa-crown"></i></span>
                         <% } %>
-                        <% if(user.coach) { %>
-                            <span style="color: blue;"><i class="fa-solid fa-flag"></i></span>
-                            <% } %>
+                            <% if(user.coach) { %>
+                                <span style="color: blue;"><i class="fa-solid fa-flag"></i></span>
+                                <% } %>
                 </div>
+                <% if(user.coach) { %>
+                    <div class="referral-code">
+                        <%=user.referralCode%>
+                    </div>
+                    <% } %>
             </div>
             <hr class="hrs">
             <div class="edit">

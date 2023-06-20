@@ -1,3 +1,7 @@
+@font-face {
+    font-family: harabaraMais;
+    src: url(../harabara-mais.otf);
+}
 :root {
 
     /* green theme/---- */
@@ -41,6 +45,9 @@ body {
 .nav-title {
     color: var(--dark);
     font-size: 22px;
+    font-family: harabaraMais;
+    letter-spacing: 0.095rem;
+    cursor: pointer;
 }
 
 .nav-title span {

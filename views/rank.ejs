@@ -37,19 +37,32 @@
                 <% users.forEach(function (user) { %>
                     <li class="user">
                         <a href="/viewprofile/<%= user._id %>">
-                            <% if(user.profile) { %>
-                                <img class="user-profile" src="/uploads/<%= user.profile%>" alt="profile">
-                                <% } else{ %>
-                                    <img class="user-profile" src="/img/user.png" alt="profile">
+                            <div class="user-left">
+                                <% if(user.profile) { %>
+                                    <img class="user-profile" src="/uploads/<%= user.profile%>" alt="profile">
+                                    <% } else{ %>
+                                        <img class="user-profile" src="/img/user.png" alt="profile">
+                                        <% } %>
+                                            <%= user.firstname %>
+                                                <%= user.lastname %>
+                                                    <% if(user.admin) { %>
+                                                        <span style="color: #95CD41; margin-left: 10px;"><i
+                                                                class="fa-solid fa-crown"></i></span>
+                                                        <% } %>
+                                                            <% if(user.coach) { %>
+                                                                <span style="color: blue; margin-left: 10px;"><i
+                                                                        class="fa-solid fa-flag"></i></span>
+
+                                                                <% } %>
+                            </div>
+                            <div class="user-right">
+                                <% if(user.totalStudents) { %>
+                                    <h3 class="totalStudents">
+                                        <%= user.totalStudents %>
+                                    </h3>
                                     <% } %>
-                            <%= user.firstname %>
-                            <%= user.lastname %>
-                                <% if(user.admin) { %>
-                                    <span style="color: #95CD41; margin-left: 10px;"><i class="fa-solid fa-crown"></i></span>
-                                    <% } %>
-                                        <% if(user.coach) { %>
-                                            <span style="color: blue; margin-left: 10px;"><i class="fa-solid fa-flag"></i></span>
-                                            <% } %></a>
+                            </div>
+                        </a>
                     </li>
                     <% }) %>
             </ul>
@@ -63,6 +76,22 @@
             <a href="profile"><i class="fa-solid fa-user"></i></a>
         </div>
     </div>
+    <script>
+        const searchUserInput = document.querySelector('.search-user');
+        const userItems = document.querySelectorAll('.user');
+
+        searchUserInput.addEventListener('input', function () {
+            const searchValue = this.value.toLowerCase();
+            userItems.forEach(function (userItem) {
+                const userName = userItem.innerText.toLowerCase();
+                if (userName.includes(searchValue)) {
+                    userItem.style.display = 'block';
+                } else {
+                    userItem.style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

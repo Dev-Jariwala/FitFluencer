@@ -52,6 +52,20 @@ app.post('/register', checkNOTAuthenticated, async (req, res) => {
         const password = req.body.password;
         const cpassword = req.body.cpassword;
 
+        let referralCode = req.body.referralCode;
+
+        if (referralCode === "") {
+            referralCode = "CrownManish"
+        }
+
+        // Validate referral code and find the coach
+        const coach = await UserData.findOne({ referralCode });
+        if (!coach) {
+            req.flash('notMatched', 'Invalid Referral Code')
+            return res.render("register")
+        }
+
+
         if (password === cpassword) {
             const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -61,15 +75,43 @@ app.post('/register', checkNOTAuthenticated, async (req, res) => {
                 phone: req.body.phone,
                 password: hashedPassword,
                 admin: false,
-                coach: false
+                coach: false,
+                coachId: coach._id
             });
             const result = await registerUser.save();
-            res.redirect('login')
+            // Use async/await to handle asynchronous operations
+            async function countTotalStudents(coachId) {
+                const students = await UserData.find({ coachId: coachId }).select('_id');
+
+                let totalStudents = students.length;
+
+                // Recursive function to retrieve all students for a given coach
+                async function getStudentsRecursive(students) {
+                    const studentIds = students.map(student => student._id);
+
+                    const subStudents = await UserData.find({ coachId: { $in: studentIds } }).select('_id');
+                    totalStudents += subStudents.length;
+
+                    if (subStudents.length > 0) {
+                        await getStudentsRecursive(subStudents);
+                    }
+                }
+
+                await getStudentsRecursive(students);
+
+                console.log(totalStudents);
+                // await UserData.updateOne({ _id: coachId }, { totalStudents: totalStudents });
+            }
+
+            // Call the function with the coachId
+            countTotalStudents(coach._id);
+            return res.redirect('login')
         } else {
             req.flash('notMatched', 'Enter same passwords')
-            res.redirect("register")
+            return res.redirect("register")
         }
     } catch (error) {
+        console.log(error)
         res.redirect('register')
     }
 })
@@ -109,7 +151,8 @@ app.get('/profile', checkAuthenticated, (req, res) => {
             phone: req.user.phone,
             profile: req.user.profile,
             admin: req.user.admin,
-            coach: req.user.coach
+            coach: req.user.coach,
+            referralCode: req.user.referralCode
         }
     })
 })
@@ -147,7 +190,26 @@ app.post('/upload', upload, checkAuthenticated, async (req, res) => {
 // Rank Page - (method=GET)
 app.get('/rank', checkAuthenticated, async (req, res) => {
     try {
-        const users = await UserData.find({}, ('profile firstname lastname admin coach'));
+        const users = await UserData.find({}, ('profile firstname lastname admin coach totalStudents'));
+
+        // Sort users array based on coach property
+        users.sort((a, b) => {
+            if (a.totalStudents > b.totalStudents) {
+                return-1;
+            } else if (b.totalStudents > a.totalStudents) {
+                return 1;
+            } else if (a.coach && b.admin) {
+                return 1;
+            } else if (a.admin && b.coach) {
+                return -1;
+            } else if (a.coach && !b.coach) {
+                return -1;
+            } else if (!a.coach && b.coach) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
         res.render('rank', { users });
     } catch (error) {
         // Handle error
@@ -163,13 +225,43 @@ app.get('/viewprofile/:id', checkAuthenticated, async (req, res) => {
     try {
         const userId = req.params.id;
         const user = await UserData.findById(userId);
-        
+
+        let teacher = await UserData.findById(userId);
+        let upline = [];
+        let isDownline = false;
+        // console.log(req.user._id)
+        while (!(teacher.coachId == "648d7ce0e623ddcd19505ee0")) {
+            const isCoachIdAvaiable = await UserData.findById(teacher.coachId);
+            if(!isCoachIdAvaiable){
+                teacher.coachId = "648d7ce0e623ddcd19505ee0";
+                await teacher.save();
+            }
+            upline.push(teacher.coachId.toString())
+            teacher = await UserData.findById(teacher.coachId);
+
+        }
+        // console.log(upline)
+        for (let i = 0; i < upline.length; i++) {
+            if (upline[i] == req.user._id) {
+                isDownline = true;
+            }
+        }
+        // console.log(isDownline);
+
+
         if (!user) {
             // User not found
             return res.sendStatus(404);
         }
+        const students = await UserData.find({ coachId: user._id }, ('profile firstname lastname admin coach referralCode'));
 
-        res.render('viewprofile', { user , isAdmin:req.user.admin });
+        res.render('viewprofile', {
+            user,
+            isAdmin: req.user.admin,
+            students,
+            isSelf: req.user._id == userId,
+            isDownline: isDownline
+        });
     } catch (error) {
         // Handle error
         console.error(error);
@@ -179,51 +271,98 @@ app.get('/viewprofile/:id', checkAuthenticated, async (req, res) => {
 
 
 
+//   Generating referral code referral codes before admin creates coach
+const generateReferralCode = async () => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let referralCode = '';
+
+    let isUnique = false;
+    while (!isUnique) {
+        for (let i = 0; i < 8; i++) {
+            referralCode += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+
+        // Check if the generated code already exists in the database
+        const existingUser = await UserData.findOne({ referralCode });
+        if (!existingUser) {
+            isUnique = true;
+        } else {
+            // Code already exists, regenerate a new code
+            referralCode = '';
+        }
+    }
+    console.log(referralCode);
+
+    return referralCode;
+};
+
+
+
+
 // Making coaches by admin from viewprofile pages of user
 app.post('/makecoach/:id', checkAuthenticated, async (req, res) => {
     try {
-      const userId = req.params.id;
-      const user = await UserData.findById(userId);
-  
-      if (!user) {
-        // User not found
-        return res.sendStatus(404);
-      }
-  
-      user.coach = true;
-      await user.save();
-  
-      res.redirect(`/viewprofile/${userId}`);
+        const userId = req.params.id;
+        const user = await UserData.findById(userId);
+
+        if (!user) {
+            // User not found
+            return res.sendStatus(404);
+        }
+
+        // Generate a referral code for the coach
+        const referralCode = await generateReferralCode();
+
+        user.referralCode = referralCode;
+        user.coach = true;
+        await user.save();
+        res.redirect(`/viewprofile/${userId}`);
     } catch (error) {
-      // Handle error
-      console.error(error);
-      res.sendStatus(500);
+        // Handle error
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  });
+});
 
-
-  // Removing coaches by admin from viewprofile pages of user
-  app.post('/removecoach/:id', checkAuthenticated, async (req, res) => {
+// Delete User - (method=DELETE)
+app.delete('/deleteuser/:id', checkAuthenticated, async (req, res) => {
     try {
-      const userId = req.params.id;
-      const user = await UserData.findById(userId);
-  
-      if (!user) {
-        // User not found
-        return res.sendStatus(404);
-      }
-  
-      user.coach = false;
-      await user.save();
-  
-      res.redirect(`/viewprofile/${userId}`);
+        const userId = req.params.id;
+        await UserData.findByIdAndDelete(userId);
+        res.redirect('/rank');
     } catch (error) {
-      // Handle error
-      console.error(error);
-      res.sendStatus(500);
+        console.error(error);
+        res.sendStatus(500);
     }
-  });
-  
+});
+
+
+// Removing coaches by admin from viewprofile pages of user
+app.post('/removecoach/:id', checkAuthenticated, async (req, res) => {
+    try {
+        const userId = req.params.id;
+        const user = await UserData.findById(userId);
+
+        if (!user) {
+            // User not found
+            return res.sendStatus(404);
+        }
+        user.referralCode = "";
+        user.coach = false;
+        await user.save();
+
+        res.redirect(`/viewprofile/${userId}`);
+    } catch (error) {
+        // Handle error
+        console.error(error);
+        res.sendStatus(500);
+    }
+});
+
+
+
+
+
 
 app.delete('/logout', checkAuthenticated, (req, res) => {
     req.logout(req.user, err => {

@@ -61,20 +61,75 @@
                                 <span style="color: blue;"><i class="fa-solid fa-flag"></i></span>
                                 <% } %>
                 </div>
+                <% if(user.coach) { %>
+                    <div class="referral-code">
+                        <%=user.referralCode%>
+                    </div>
+                    <% } %>
             </div>
             <hr class="hrs">
-            <% if (isAdmin) { %>
-                <% if (!user.coach) { %>
-                    <form class="coach-form" action="/makecoach/<%= user._id %>" method="POST">
-                        <button class="coach-btn" type="submit">Make Coach</button>
-                    </form>
-                    <% }else{ %>
-                        <form class="coach-form" action="/removecoach/<%= user._id %>" method="POST">
-                            <button class="coach-btn" type="submit">Remove Coach</button>
+            <% if (isAdmin && isSelf) { %>
+                <% } else if (isAdmin) { %>
+                    <% if (!user.coach) { %>
+                        <form class="coach-form" action="/makecoach/<%= user._id %>" method="POST">
+                            <button class="coach-btn" type="submit">Make Coach</button>
                         </form>
-                        <% } %>
+                        <% }else{ %>
+                            <form class="coach-form" action="/removecoach/<%= user._id %>" method="POST">
+                                <button class="coach-btn" type="submit">Remove Coach</button>
+                            </form>
                             <% } %>
+                                <% if (isAdmin && isSelf) { %>
+                                    <% } else if (isAdmin || isSelf) { %>
+                                        <form class="coach-form" action="/deleteuser/<%= user._id %>?_method=DELETE"
+                                            method="POST">
+                                            <button class="coach-btn" type="submit">Delete Account</button>
+                                        </form>
+                                        <% } %>
 
+                                            <hr class="hrs">
+                                            <% } %>
+                                                <% if (isAdmin || isSelf || isDownline) { %>
+                                                    <h3 class="stitle">Students</h3>
+                                                    <ul class="users">
+                                                        <% students.forEach(function (student) { %>
+                                                            <li class="user">
+                                                                <a href="/viewprofile/<%= student._id %>">
+                                                                    <div class="students-left">
+                                                                        <% if(student.profile) { %>
+                                                                            <img class="user-profile"
+                                                                                src="/uploads/<%= student.profile%>"
+                                                                                alt="profile">
+                                                                            <% } else{ %>
+                                                                                <img class="user-profile"
+                                                                                    src="/img/user.png" alt="profile">
+                                                                                <% } %>
+                                                                                    <%= student.firstname %>
+                                                                                        <%= student.lastname %>
+                                                                                            <% if(student.admin) { %>
+                                                                                                <span
+                                                                                                    style="color: #95CD41; margin-left: 10px;"><i
+                                                                                                        class="fa-solid fa-crown"></i></span>
+                                                                                                <% } %>
+                                                                                                    <% if(student.coach)
+                                                                                                        { %>
+                                                                                                        <span
+                                                                                                            style="color: blue; margin-left: 10px;"><i
+                                                                                                                class="fa-solid fa-flag"></i></span>
+                                                                                                        <% } %>
+                                                                    </div>
+                                                                    <div class="students-right">
+                                                                        <% if(user.totalStudents) { %>
+                                                                            <h3 class="totalStudents">
+                                                                                <%= user.totalStudents %>
+                                                                            </h3>
+                                                                            <% } %>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <% }) %>
+                                                    </ul>
+                                                    <% } %>
         </div>
 
         <!-- footer -->
